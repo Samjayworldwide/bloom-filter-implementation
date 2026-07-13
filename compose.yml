@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  redis-stack:
+    image: redis/redis-stack-server:7.4.0-v8
+    container_name: username-bloom-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-stack-data:/data
+    environment:
+      # persist to disk so the bloom filter survives a container restart too,
+      # not just an app restart
+      - REDIS_ARGS=--save 60 1 --appendonly yes
+
+volumes:
+  redis-stack-data:
